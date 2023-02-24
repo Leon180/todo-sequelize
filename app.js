@@ -25,7 +25,7 @@ app.get('/', async (req, res) => {
     })
     return res.render('index', { todos: todos })
   }
-  catch {
+  catch (error) {
     return res.status(422).json(error)
   }
 })
@@ -50,6 +50,17 @@ app.post('/users/register', async (req, res) => {
 
 app.get('/users/logout', (req, res) => {
   res.send('logout')
+})
+
+app.get('/todos/:id', async (req, res) => {
+  const id = req.params.id
+  try {
+    const todo = await Todo.findByPk(id)
+    return res.render('detail', { todo: todo.toJSON() })
+  }
+  catch (error) {
+    console.log(error)
+  }
 })
 
 
