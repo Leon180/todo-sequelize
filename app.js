@@ -3,6 +3,10 @@ const exphbs = require('express-handlebars')
 const methodOverride = require('method-override')
 const bcrybt = require('bcryptjs')
 
+const db = require('./models')
+const Todo = db.Todo
+const User = db.User
+
 const app = express()
 const PORT = 3000
 app.engine('hbs', exphbs({
@@ -29,8 +33,10 @@ app.get('/users/register', (req, res) => {
   res.render('register')
 })
 
-app.post('/users/register', (req, res) => {
-  res.send('register')
+app.post('/users/register', async (req, res) => {
+  const { name, email, password, confirmPassword } = req.body
+  await User.create({ name, email, password })
+  res.redirect('/')
 })
 
 app.get('/users/logout', (req, res) => {
