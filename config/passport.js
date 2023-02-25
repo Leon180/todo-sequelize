@@ -12,7 +12,6 @@ module.exports = app => {
     try {
       let user = await User.findOne({ where: { email } })
       user = user.toJSON()
-      console.log(user)
       if (!user) {
         return done(null, false, { message: 'That email is not registered!' })
       }
